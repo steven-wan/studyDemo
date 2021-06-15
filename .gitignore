@@ -3,6 +3,16 @@
 
 # Log file
 *.log
+*.logs
+
+#file
+log.logdir_IS_UNDEFINED/
+target/
+.idea
+.idea/*.xml
+*.iws
+*.iml
+*.ipr
 
 # BlueJ files
 *.ctxt
