@@ -1,0 +1,13 @@
+
+# rabbitmq
+rabbitmq:
+  virtual-host: /
+  host: 172.16.21.129
+  port: 5672
+  username: guest
+  password: guest
+
+#log
+log:
+  dir: D:\\logs\\rabbimqSpringMVC
+  maxHistory: 10

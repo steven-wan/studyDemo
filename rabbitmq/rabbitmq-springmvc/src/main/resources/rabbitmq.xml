@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbitmq="http://www.springframework.org/schema/rabbit"
+       xmlns:rabbtmq="http://www.springframework.org/schema/rabbit"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit.xsd">
+
+    <rabbitmq:connection-factory id="connectionFactory" host="${rabbitmq.host}" username="${rabbitmq.username}" password="${rabbitmq.password}" port="${rabbitmq.port}" virtual-host="${rabbitmq.virtual-host}"
+    publisher-returns="true" confirm-type="CORRELATED"
+    />
+
+    <rabbitmq:admin id="admin" connection-factory="connectionFactory"/>
+
+    <!-- 这里注意，一些属性可以看 xsd 里面的，配合 spring-amqp 官网。可以先配置简单版的，满足基本需要的配置，然后才是根据实际遇到的情况去增加配置-->
+    <rabbitmq:template id="amqpTemplate" connection-factory="connectionFactory" retry-template="retryTemplate" queue="defaultQueue" exchange="defaultExchange"
+    routing-key="defaultRouteKey"/>
+
+    <bean id="retryTemplate" class="org.springframework.retry.support.RetryTemplate" />
+
+    <!-- 定义 exchange topic ,direct-->
+    <rabbitmq:direct-exchange name="defaultExchange" id="defaultExchange">
+        <rabbitmq:bindings>
+            <rabbitmq:binding queue="defaultQueue" key="defaultRouteKey"/>
+        </rabbitmq:bindings>
+    </rabbitmq:direct-exchange>
+
+    <!-- 定义 queue-->
+    <rabbtmq:queue id="defaultQueue" name="defaultQueue" />
+
+    <import resource="classpath*:rabbitmq-consumer.xml"/>
+    <import resource="classpath*:rabbitmq-producer.xml"/>
+
+</beans>
