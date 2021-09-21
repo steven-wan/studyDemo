@@ -28,6 +28,5 @@
     <rabbtmq:queue id="defaultQueue" name="defaultQueue" />
 
     <import resource="classpath*:rabbitmq-consumer.xml"/>
-    <import resource="classpath*:rabbitmq-producer.xml"/>
 
 </beans>
